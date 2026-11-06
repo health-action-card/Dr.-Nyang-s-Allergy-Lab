@@ -1,0 +1,25 @@
+{
+  "name": "냥박사의 알레르기 연구소",
+  "short_name": "냥박사 연구소",
+  "description": "냥박사의 알레르기 연구소 - 알레르기 유발물질 탐색과 나만의 알레르기 방패(예방 약속 카드·5일 실천 챌린지)",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff3f8",
+  "theme_color": "#f0196e",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

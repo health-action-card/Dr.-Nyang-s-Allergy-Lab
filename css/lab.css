@@ -1,0 +1,125 @@
+/* =========================================================
+   lab.css — 냥박사의 알레르기 연구소 (S00 ~ S38A)
+   장면 그림을 화면에 맞춰 보여 주고, 그 위에 누르는 자리·바뀐 글자를 얹어요.
+   글자 크기는 그림 너비 기준(cqw)이라 태블릿·휴대폰 모두 같은 비율로 보여요.
+   ========================================================= */
+.screen-lab { padding:0 !important; max-width:none !important; }
+.lab { position:relative; height:100dvh; display:flex; flex-direction:column; overflow:hidden; background:#e8f3ff; }
+body.tablet .lab { position:absolute; inset:0; height:900px; }
+.lab-bg { position:absolute; inset:-40px; width:calc(100% + 80px); height:calc(100% + 80px); max-width:none; object-fit:cover; filter:blur(26px) brightness(1.04) saturate(1.1); opacity:.9; pointer-events:none; }
+.lab-fit { position:relative; flex:1; min-height:0; display:flex; align-items:center; justify-content:center; container-type:size; padding:calc(var(--safe-t) + 4px) 0 calc(var(--safe-b) + 4px); }
+body.tablet .lab-fit { padding:0; }
+.lab-pic { position:relative; width:min(100cqw, calc(100cqh * var(--arn))); aspect-ratio:var(--ar); container-type:inline-size; user-select:none; -webkit-user-select:none; }
+.lab-img { display:block; width:100%; height:100%; max-width:none; pointer-events:none; border-radius:1.2cqw; box-shadow:0 1cqw 3cqw rgba(30,60,120,.18); }
+body.tablet .lab-s00 .lab-img, body.tablet .lab-quiz .lab-img { border-radius:0; box-shadow:none; }
+.lab-bar { position:relative; flex:none; display:flex; justify-content:center; align-items:center; gap:12px; min-height:84px; padding:6px 16px calc(var(--safe-b) + 6px); }
+body.tablet .lab-bar { min-height:110px; padding:0 0 14px; }
+.lab-bar .btn { min-width:min(420px, 90vw); }
+.lab-bar [hidden], .lab [hidden] { display:none !important; }
+body.tablet .lab-bar .btn { min-width:520px; font-size:34px; min-height:86px; }
+
+/* ---------- 누르는 자리 ---------- */
+.lab-hot, .lab-secret { position:absolute; background:transparent; border:0; padding:0; z-index:3; }
+.lab-hot:focus-visible, .lab-card:focus-visible, .lab-piece:focus-visible, .lab-cbtn:focus-visible { outline:.4cqw solid #ffbf00; outline-offset:.2cqw; }
+.lab-hot.round { border-radius:50%; } .lab-hot.pill { border-radius:999px; } .lab-hot.card { border-radius:3cqw; }
+.lab-hot.bc { border-radius:1.4cqw; } .lab-hot.obj { border-radius:3cqw; }
+@keyframes labring { 0% { box-shadow:0 0 0 0 rgba(255,214,0,.75); } 80%,100% { box-shadow:0 0 0 1.6cqw rgba(255,214,0,0); } }
+@keyframes labsoft { 0%,100% { box-shadow:0 0 0 0 rgba(255,255,255,0); } 50% { box-shadow:0 0 0 .5cqw rgba(255,255,255,.55); } }
+@keyframes labglow { 0%,100% { box-shadow:0 0 0 .4cqw #ffd400, 0 0 2cqw .8cqw rgba(255,212,0,.85); background-color:rgba(255,230,80,.18); } 50% { box-shadow:0 0 0 .2cqw #ffd400, 0 0 .6cqw .2cqw rgba(255,212,0,.4); background-color:rgba(255,230,80,0); } }
+@keyframes labflash { 0% { background-color:rgba(255,255,255,0); } 30% { background-color:rgba(255,255,255,.55); } 100% { background-color:rgba(255,255,255,0); } }
+@keyframes rise { from { transform:translateY(60%); opacity:0; } to { transform:none; opacity:1; } }
+.lab-hot.pulse, .lab-hot.ring.pulse { animation:labring 1.8s ease-out infinite; }
+.lab-hot.obj.pulse { animation:labsoft 2.2s ease-in-out infinite; }
+.lab-hot.glow, .lab-qslot.glow { animation:labglow .6s ease-in-out 5 !important; }
+.lab-step.glow { animation:labglow .6s ease-in-out 2 !important; }
+.lab-hot.flash { animation:labflash .45s ease-out 1 !important; }
+.rise { animation:rise .35s ease-out both; }
+.lab-hot.bc.done { background:rgba(255,255,255,.18); }
+.lab-hot.bc.done i, .lab-slot.done i { position:absolute; right:-6%; top:-10%; width:2.6cqw; height:2.6cqw; border-radius:50%; background:#18a96b; color:#fff; font-style:normal; font-weight:900; font-size:1.7cqw; display:grid; place-items:center; border:.25cqw solid #fff; box-shadow:0 .3cqw .8cqw rgba(0,0,0,.2); }
+.lab-slot.done i { right:4%; top:2%; width:4cqw; height:4cqw; font-size:2.6cqw; }
+
+/* ---------- 덮는 것: 글자·이름판·다른 곳 잘라 붙이기 ---------- */
+.lab-patch { position:absolute; overflow:hidden; z-index:2; pointer-events:none; }
+.lab-patch img { position:absolute; max-width:none; height:auto; }
+.lab-cover { position:absolute; z-index:2; background:#fff; border-radius:3cqw; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;
+  font-weight:900; color:#16235c; line-height:1.38; letter-spacing:-.03em; padding:0 2%; }
+.lab-cover.flat { border-radius:1cqw; }
+.lab-cover .lab-txt { display:inline-block; max-width:100%; }
+b.lb { color:#1f5ee8; } b.lp { color:#e8336a; }
+.lab-sign { position:absolute; z-index:2; background:#fff; border:.35cqw solid #3b7cf0; border-radius:999px; display:flex; align-items:center; justify-content:center;
+  font-weight:900; font-size:2.35cqw; color:#173a8f; letter-spacing:-.03em; box-shadow:0 .4cqw 1cqw rgba(40,90,200,.18); white-space:nowrap; }
+.lab-ribbon { position:absolute; z-index:2; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#ff5a92,#e8336a); color:#fff; font-weight:900; font-size:2.6cqw; border-radius:1.2cqw; border:.3cqw solid #fff; box-shadow:0 .4cqw 1cqw rgba(200,20,90,.25); white-space:nowrap; }
+.lab-pinkbtn span { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; border-radius:999px; background:linear-gradient(180deg,#ff6c9d,#e8336a 60%,#c81f58); color:#fff; font-weight:900; font-size:3.3cqw; border:.45cqw solid #fff; box-shadow:0 .5cqw 1.2cqw rgba(200,20,90,.3); }
+
+/* ---------- 장소 메인: 찾은 개수 · 트레이 ---------- */
+.lab-count { position:absolute; z-index:2; background:#fff; border:.35cqw solid #2f6bf0; border-radius:1.6cqw; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.1; box-shadow:0 .4cqw 1cqw rgba(40,90,200,.2); }
+.lab-count span { font-weight:900; font-size:1.6cqw; color:#173a8f; }
+.lab-count b { font-weight:900; font-size:3.6cqw; color:#1f5ee8; }
+.lab-count.row { flex-direction:row; gap:1cqw; } .lab-count.row b { font-size:2.8cqw; } .lab-count.row span { font-size:1.7cqw; }
+.lab-slot { position:absolute; z-index:2; aspect-ratio:1; border-radius:50%; pointer-events:none;
+  -webkit-backdrop-filter:grayscale(1) brightness(1.12) contrast(.85); backdrop-filter:grayscale(1) brightness(1.12) contrast(.85); background:rgba(255,255,255,.28); }
+.lab-slot.done { -webkit-backdrop-filter:none; backdrop-filter:none; background:none; box-shadow:0 0 0 .35cqw #18a96b; }
+.lab-again { position:absolute; left:1.5%; top:2%; z-index:4; }
+.lab-again .btn { font-size:1.8cqw; min-height:0; padding:.8cqw 2cqw; border-width:.25cqw; }
+
+/* ---------- 증상과 예방법 ---------- */
+.lab-tips { position:absolute; z-index:2; background:linear-gradient(180deg,#fff 0 11%,#e4f8ef 11%); border-radius:2cqw; }
+.lab-badge { position:absolute; left:3%; top:0; height:24%; display:flex; align-items:center; padding:0 2.2cqw; border-radius:999px; background:linear-gradient(180deg,#2cc163,#13963e); color:#fff; font-weight:900; font-size:3.2cqw; letter-spacing:-.02em; box-shadow:0 .4cqw .8cqw rgba(19,150,62,.3); }
+.lab-tips ul { position:absolute; left:4%; right:3%; top:27%; bottom:6%; list-style:none; display:flex; flex-direction:column; justify-content:space-evenly; }
+.lab-tips li { position:relative; padding-left:1.6em; font-weight:900; color:#1b1b3a; line-height:1.3; letter-spacing:-.03em; opacity:0; transform:translateY(.3em); transition:opacity .3s, transform .3s; }
+.lab-tips li.on { opacity:1; transform:none; }
+.lab-tips li::before { content:''; position:absolute; left:.1em; top:.18em; width:.95em; height:.95em; border-radius:50%; background:#1f5ee8; }
+.lab-swap { position:absolute; z-index:2; background:#fff; display:flex; align-items:center; justify-content:center; }
+.lab-swap img { width:100%; height:100%; object-fit:contain; }
+
+/* ---------- 장소 완료 팝업 ---------- */
+.lab-done .modal { width:min(94vw, calc(86dvh * 1448 / 1086)); max-height:none; background:none; box-shadow:none; padding:0; border-radius:0; overflow:visible; }
+body.tablet .lab-done .modal { width:1060px; }
+.lab-pop { position:relative; aspect-ratio:var(--ar); container-type:inline-size; }
+.lab-pop img { display:block; width:100%; border-radius:2.4cqw; box-shadow:0 2cqw 5cqw rgba(0,0,0,.3); }
+
+/* ---------- 증상 카드 (S36-3 ~ S36-6) ---------- */
+.lab-card { position:absolute; z-index:3; background:transparent; border:.35cqw solid transparent; border-radius:1.2cqw; padding:0; transition:border-color .2s, box-shadow .2s; }
+.lab-card:not(.seen) { animation:labsoft 2.2s ease-in-out infinite; }
+.lab-card.sel { border-color:#ffc93c; box-shadow:0 0 0 .3cqw #fff, 0 0 1.8cqw .4cqw rgba(255,201,60,.8); }
+.lab-clabel { position:absolute; left:5%; right:5%; bottom:3%; height:20%; border-radius:.8cqw; background:#ffe2ec; display:flex; align-items:center; justify-content:center; text-align:center;
+  font-weight:900; font-size:1.4cqw; line-height:1.12; color:transparent; letter-spacing:-.04em; padding:0 3%; box-shadow:inset 0 0 0 .15cqw #ffc6d8; }
+.lab-card.seen .lab-clabel { color:#16235c; background:#ffe9f1; }
+.lab-card.sel .lab-clabel { background:#fff4c2; box-shadow:inset 0 0 0 .15cqw #ffd76a; }
+.lab-cbub { border-radius:999px; }
+.lab-cbtn { position:absolute; z-index:3; display:flex; align-items:center; justify-content:center; gap:.6cqw; border-radius:999px; border:.3cqw solid #fff;
+  font-weight:900; font-size:2.5cqw; letter-spacing:-.03em; box-shadow:0 .5cqw 1.2cqw rgba(30,40,90,.22); padding:0 1.5cqw; white-space:nowrap; transition:background .3s, color .3s; }
+.lab-cbtn .lk { display:none; } .lab-cbtn .seen { display:none; }
+.lab-cbtn.yellow { background:linear-gradient(180deg,#fff07a,#ffcf2e); color:#26286b; box-shadow:0 0 0 .3cqw #f39a1b, 0 .5cqw 1.2cqw rgba(30,40,90,.22); }
+.lab-cbtn.pink { background:linear-gradient(180deg,#ff8fb8,#f0507f); color:#fff; box-shadow:0 0 0 .3cqw #e8336a, 0 .5cqw 1.2cqw rgba(30,40,90,.22); }
+.lab-cbtn.blue { background:linear-gradient(180deg,#5b8fff,#2f6bf0); color:#fff; box-shadow:0 0 0 .3cqw #1f4fc4, 0 .5cqw 1.2cqw rgba(30,40,90,.22); }
+.lab-cbtn.white { background:#fff; color:#173a8f; box-shadow:0 0 0 .3cqw #3b7cf0, 0 .5cqw 1.2cqw rgba(30,40,90,.18); }
+.lab-cbtn.locked { background:linear-gradient(180deg,#a9b0b9,#7f8892); color:#fff; box-shadow:0 0 0 .3cqw #6b737c, 0 .4cqw 1cqw rgba(0,0,0,.2); }
+.lab-cbtn.locked .lk { display:inline; }
+.lab-cbtn.did:not(.locked) .seen { display:grid; position:absolute; right:-.6cqw; top:-.9cqw; width:2.6cqw; height:2.6cqw; border-radius:50%; background:#18a96b; color:#fff; font-style:normal; font-size:1.6cqw; place-items:center; border:.25cqw solid #fff; }
+.lab-cbtn:active { transform:scale(.97); }
+@keyframes labbtn { 0%,100% { scale:1; } 50% { scale:1.04; } }
+.lab-cbtn.glowloop { animation:labbtn 1.6s ease-in-out infinite; }
+.lab-cope .lab-cbtn { opacity:0; pointer-events:none; transition:opacity .3s; }
+.lab-cope .lab-cbtn.on { opacity:1; pointer-events:auto; }
+.lab-step { position:absolute; z-index:2; border-radius:2cqw; pointer-events:none; }
+
+/* ---------- 기억 체크 (S38A) ---------- */
+.lab-quiz .lab-pic { touch-action:none; }
+.lab-tray { position:absolute; z-index:2; background:#f4f7fb; border-radius:1.2cqw; box-shadow:inset 0 0 0 .2cqw #e2e8f0; }
+.lab-qslot { position:absolute; z-index:2; border-radius:1cqw; }
+.lab-qslot.ok { box-shadow:0 0 0 .35cqw #18a96b; }
+.lab-piece { position:absolute; z-index:4; padding:0; border:.3cqw solid #e3e8f2; border-radius:1.2cqw; overflow:hidden; background:#fff; touch-action:none; cursor:grab;
+  transition:left .25s ease, top .25s ease, width .25s ease, height .25s ease, box-shadow .2s; box-shadow:0 .4cqw 1cqw rgba(30,40,90,.15); }
+.lab-piece img { display:block; width:100%; height:100%; object-fit:contain; pointer-events:none; }
+.lab-piece.drag { transition:none; z-index:10; cursor:grabbing; box-shadow:0 1.6cqw 3cqw rgba(30,40,90,.35); scale:1.05; }
+.lab-piece.sel { border-color:#ffc93c; box-shadow:0 0 0 .3cqw #fff, 0 0 1.8cqw .4cqw rgba(255,201,60,.85); }
+.lab-piece.placed { border-color:#18a96b; cursor:default; z-index:3; }
+.lab-piece:disabled { opacity:1; }
+.lab-qtitle { color:#16235c; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-hot.pulse, .lab-hot.ring.pulse, .lab-hot.obj.pulse, .lab-card:not(.seen), .lab-cbtn.glowloop { animation:none !important; }
+  .lab-hot.glow, .lab-step.glow, .lab-qslot.glow { animation-iteration-count:1 !important; }
+  .lab-piece { transition:none; }
+}
